@@ -18,17 +18,21 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import kmp_sample.composeapp.generated.resources.Res
 import kmp_sample.composeapp.generated.resources.compose_multiplatform
 
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 @Composable
 @Preview
-fun App() {
+fun App(mainViewModel: MainViewModel = viewModel()) {
     MaterialTheme {
-        val greeting = remember { Greeting().greet() }
+        val greetings by mainViewModel.greetingList.collectAsStateWithLifecycle()
 
         Column(
             modifier = Modifier.padding(all = 20.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            greeting.forEach { greeting ->
+            greetings.forEach { greeting ->
                 Text(greeting)
                 Divider()
             }
